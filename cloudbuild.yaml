@@ -1,0 +1,26 @@
+steps:
+# This step runs the unit tests on the app
+- name: 'node:16-alpine'
+  id: Test
+  entrypoint: /bin/sh
+  args:
+  - -c
+  - 'yarn install --frozen-lockfile && yarn test --watchAll=false'
+
+# This step builds the container image.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build
+  args:
+  - 'build'
+  - '-t'
+  - 'us-west2-docker.pkg.dev/$PROJECT_ID/palms-park-bridge-club/bridge-react-app:$SHORT_SHA'
+  - '.'
+
+# This step pushes the image to Artifact Registry
+# The PROJECT_ID and SHORT_SHA variables are automatically
+# replaced by Cloud Build.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Push
+  args:
+  - 'push'
+  - 'us-west2-docker.pkg.dev/$PROJECT_ID/palms-park-bridge-club/bridge-react-app:$SHORT_SHA'
