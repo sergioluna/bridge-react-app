@@ -1,3 +1,4 @@
+# [START cloudbuild]
 steps:
 # This step runs the unit tests on the app
 - name: 'node:16-alpine'
@@ -24,3 +25,45 @@ steps:
   args:
   - 'push'
   - 'us-west2-docker.pkg.dev/$PROJECT_ID/palms-park-bridge-club/bridge-react-app:$SHORT_SHA'
+# [END cloudbuild]
+
+
+# [START cloudbuild-trigger-cd]
+# This step clones the bridge-react-env repository
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Clone env repository
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    gcloud source repos clone bridge-react-env && \
+    cd bridge-react-env && \
+    git checkout candidate && \
+    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
+
+# This step generates the new manifest
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Generate manifest
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
+     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > bridge-react-env/kubernetes.yaml
+
+# This step pushes the manifest back to bridge-react-env
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Push manifest
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    set -x && \
+    cd bridge-react-env && \
+    git add kubernetes.yaml && \
+    git commit -m "Deploying image us-west2-docker.pkg.dev/$PROJECT_ID/palms-park-bridge-club/bridge-react-app:${SHORT_SHA}
+    Built from commit ${COMMIT_SHA} of repository bridge-react-app
+    Author: $(git log --format='%an <%ae>' -n 1 HEAD)" && \
+    git push origin candidate
+
+# [END cloudbuild-trigger-cd]
