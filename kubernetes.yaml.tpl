@@ -18,7 +18,7 @@ spec:
       - name: bridge-react-app
         image: us-west2-docker.pkg.dev/GOOGLE_CLOUD_PROJECT/palms-park-bridge-club/bridge-react-app:COMMIT_SHA
         ports:
-        - containerPort: 8080
+        - containerPort: 80
 ---
 kind: Service
 apiVersion: v1
