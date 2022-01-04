@@ -25,7 +25,7 @@ function Registration() {
             </p>
 
             <p>
-                We will confirm your seat availability within a few hours.
+                We will confirm your seat availability ASAP.
             </p>
 
             <RegistrationForm />
