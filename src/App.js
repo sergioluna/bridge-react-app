@@ -1,6 +1,8 @@
 import Navbar from './components/Navbar';
+
 import Home from './pages/Home';
-import Events from './pages/Events';
+import Registration from './pages/Registration';
+import ScoreCalculator from './pages/ScoreCalculator';
 
 import {
   BrowserRouter,
@@ -14,7 +16,8 @@ function App() {
         <Navbar />
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/events" element={<Events />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/score-calculator" element={<ScoreCalculator />} />
         </Routes>
     </BrowserRouter>
   );
