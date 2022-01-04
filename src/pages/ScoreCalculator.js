@@ -110,6 +110,16 @@ function ScoreCalculator() {
     });
     const [score, setScore] = useState()
 
+    const parseSuit = (suit) => {
+        if (suit === "clubs" || suit === "diamonds") {
+            return "min";
+        } else if (suit === "hearts" || suit === "spades") {
+            return "maj";
+        } else if (suit === "notrump") {
+            return "nt";
+        }
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -117,7 +127,7 @@ function ScoreCalculator() {
         if (formIsValid()) {
             const newScore = calculateScore(
                         parseInt(formData.bid, 10), 
-                        formData.suit, 
+                        parseSuit(formData.suit), 
                         parseInt(formData.double, 10), 
                         parseInt(formData.vulnerable, 10),
                         parseInt(formData.tricks, 10)
@@ -150,11 +160,11 @@ function ScoreCalculator() {
                     <div className="col">
                         <select className="form-select" name="suit" aria-label="Select Suit" onChange={handleChange} value={formData.suit}>
                             <option value ="none">Trump Suit</option>
-                            <option value="min">Clubs</option>
-                            <option value="min">Diamonds</option>
-                            <option value="maj">Hearts</option>
-                            <option value="maj">Spades</option>
-                            <option value="nt">No Trump</option>
+                            <option value="clubs">Clubs</option>
+                            <option value="diamonds">Diamonds</option>
+                            <option value="hearts">Hearts</option>
+                            <option value="spades">Spades</option>
+                            <option value="notrump">No Trump</option>
                         </select>
                     </div>
                     <div className="col">
