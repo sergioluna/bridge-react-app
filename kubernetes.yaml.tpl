@@ -14,7 +14,6 @@ spec:
       labels:
         app: bridge-react-app
     spec:
-      hostname: bridge-react-app-pod
       containers:
       - name: bridge-react-app
         image: us-west2-docker.pkg.dev/GOOGLE_CLOUD_PROJECT/palms-park-bridge-club/bridge-react-app:COMMIT_SHA
