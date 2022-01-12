@@ -32,3 +32,39 @@ spec:
     port: 80
     targetPort: 80
   type: NodePort
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: palmsparkbridge-managed-cert
+spec:
+  domains:
+    - palmsparkbridge.com
+    - www.palmsparkbridge.com
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: palmsparkbridge-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: palmsparkbridge-ip-address
+    networking.gke.io/managed-certificates: palmsparkbridge-managed-cert
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  defaultBackend:
+    service:
+      name: bridge-react-app
+      port:
+        number: 80
+  rules:
+    - host: palmsparkbridge.com
+      http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bridge-react-app
+                port:
+                  number: 80
