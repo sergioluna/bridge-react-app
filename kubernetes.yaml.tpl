@@ -50,7 +50,6 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: palmsparkbridge-ip-address
     networking.gke.io/managed-certificates: palmsparkbridge-managed-cert
     kubernetes.io/ingress.class: "gce"
-    kubernetes.io/ingress.allow-http: "false"
 spec:
   defaultBackend:
     service:
