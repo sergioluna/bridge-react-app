@@ -147,7 +147,7 @@ function ScoreCalculator() {
     }
 
     const formIsValid = () => {
-        return (formData.suit != "none" && formData.bid != "none" && formData.tricks != "none");
+        return (formData.suit !== "none" && formData.bid !== "none" && formData.tricks !== "none");
     }
 
     return (
