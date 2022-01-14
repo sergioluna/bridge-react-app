@@ -4,7 +4,7 @@ import RegistrationForm from '../components/RegistrationForm';
 function Registration() {
     return (
         <div className="container p-5">
-            <p class="fs-2">Registration</p>
+            <p className="fs-2">Registration</p>
             <p>
                 Are you ready to play? We play duplicate bridge twice a week
                 (Monday & Thursday from 9am till about 12:30), live at:
